@@ -95,7 +95,7 @@ events
 
 const App = () => (
 // ... my app code
-}
+);
 
 export default App
 ```
@@ -197,7 +197,7 @@ const App = () => (
     <DisplayEmail />
     <UpdateEmail />
   </div>
-}
+);
 
 export default App
 ```
@@ -218,7 +218,7 @@ const App = () => (
   <div>
     <DisplayEmail />
   </div>
-}
+);
 
 export default App
 ```
