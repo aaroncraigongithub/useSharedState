@@ -128,9 +128,6 @@ type onSet<T> = (value: T) => T
 
 ```Typescript
 
-
-```Typescript
-
 type beforeEmit<T> = (value: T) => T 
 
 ```
