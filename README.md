@@ -104,6 +104,8 @@ export default App
 
 `onRequest` is fired when a hook is first instantiated, and allows for asynchronous fetching of data from APIs, for example.  It should return a string or a promise that resolves as a string.
 
+`useSharedState` will ensure that only a single key's request promise executes at a time.
+
 ```Typescript
 
 type onRequest<T> = (value: T) => T | Promise<T>
@@ -131,4 +133,95 @@ type onSet<T> = (value: T) => T
 
 type beforeEmit<T> = (value: T) => T 
 
+```
+
+## Update state outside a component
+
+Sometimes it's desirable for external systems to alter app state -- updates from other clients through pub/sub, mqtt, etc, are good examples of this.
+
+`useSharedState` exposes a global `update` method that allows for updating a key outside of a component.
+
+```Typescript
+// pubSubClient.ts
+import { update } from 'use-shared-state';
+
+const client = new PubSubClient();
+
+client.subscribe('email-changes', (email) => {
+  update('email', email);
+});
+```
+
+## Examples
+
+### Simple shared state
+
+```Typescript
+
+// updateEmail.tsx
+import useSharedState from 'use-shared-state';
+
+const UpdateEmail = () => {
+  const [email, setEmail] = useSharedState('userEmail');
+  
+  return <input value={email} onChange={setEmail} />;
+}
+
+export default UpdateEmail;
+
+// displayEmail.tsx
+import useSharedState from 'use-shared-state';
+
+const DisplayEmail = () => {
+  const [email] = useSharedState('userEmail');
+  
+  return <span>User email: {email}</span>;
+}
+
+export default DisplayEmail;
+```
+
+### Fetch data from an API
+
+```Typescript
+// App.tsx
+import { events } from 'use-shared-state';
+
+async function onEmailRequest(value: string): Promise<string> {
+   const response = await fetch('http://api.example.com/email');
+   
+   return JSON.parse(response.body).email;
+}
+
+events.onRequest('email', onEmailRequest);
+
+const App = () => (
+  <div>
+    <DisplayEmail />
+    <UpdateEmail />
+  </div>
+}
+
+export default App
+```
+
+### Listening for pub/sub changes that affect state
+
+```Typescript
+// App.tsx
+import { update } from 'use-shared-state';
+
+const client = new PubSubClient();
+
+client.subscribe('email-changes', (email) => {
+  update('email', email);
+});
+
+const App = () => (
+  <div>
+    <DisplayEmail />
+  </div>
+}
+
+export default App
 ```
