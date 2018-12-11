@@ -10,9 +10,9 @@ A React Hook for sharing app state across components.
 import useSharedState from 'use-shared-state';
 
 const UpdateEmail = () => {
-  const [value, setValue] = useSharedState('userEmail');
+  const [email, setEmail] = useSharedState('userEmail');
   
-  return <input value={value} onChange={setValue} />;
+  return <input value={email} onChange={setEmail} />;
 }
 
 export default UpdateEmail;
@@ -21,9 +21,9 @@ export default UpdateEmail;
 import useSharedState from 'use-shared-state';
 
 const DisplayEmail = () => {
-  const [value] = useSharedState('userEmail');
+  const [email] = useSharedState('userEmail');
   
-  return <span>User email: {value}</span>;
+  return <span>User email: {email}</span>;
 }
 
 export default DisplayEmail;
