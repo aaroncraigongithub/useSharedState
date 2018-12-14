@@ -53,102 +53,6 @@ Redux (as an example) certainly does not impose a data down pattern, however, si
 
 By leveraging the new _Hooks API_, `useSharedState` allows components to listen to changes to a specific key in the global state, and only ever re-render when that value actually changes.  This removes the necessity to pass props from parent to child, without paying any performance penalty, as the business logic around when to re-render is abstracted away from the component -- simply listen to a key and know that when your render function is called, it's because there is actual work to do.
 
-## Middleware
-
-Many use cases require that data being stored to the global application state be modified at some point between when it is requested, when it is stored and when it is distributed to listening components.  `useSharedState` allows for registering middleware that can be hooked into these lifecycle points in order to perform such tasks as:
-- retrieving data from an API
-- coercing data prior to storage
-- manipulating data prior to emission
-- etc,
-
-Middleware can be registered during the application bootstrapping phase, ie:
-
-```Typescript
-// App.tsx
-import { events } from 'use-shared-state';
-
-async function onEmailRequest(value: string): Promise<string> {
-   const response = await fetch('http://api.example.com/email');
-   
-   return JSON.parse(response.body).email;
-}
-
-function onSetEmail(value: string): string {
-  const trimmedEmail = value.replace(/^\s+/, '').replace(/\s+$/, '');
-  
-  if (!isValidEmail(trimmedEmail)) {
-    throw new Error(`${value} doesn't seem to be correctly formatted!`);
-  }
-  
-  return trimmedEmail;
-}
-
-function beforeEmailEmit(value: string): string {
-  return value.replace('@', '(at)'); // hide email from bots!
-}
-
-events
-  .onRequest('email', onEmailRequest)
-  .onSet('email', onEmailSet)
-  .beforeEmit('email', beforeEmailEmit);
-
-
-const App = () => (
-// ... my app code
-);
-
-export default App
-```
-
-### onRequest
-
-`onRequest` is fired when a hook is first instantiated, and allows for asynchronous fetching of data from APIs, for example.  It should return a string or a promise that resolves as a string.
-
-`useSharedState` will ensure that only a single key's request promise executes at a time.
-
-```Typescript
-
-type onRequest<T> = (value: T) => T | Promise<T>
-
-```
-
-### onSet
-
-`onSet` offers an opportunity to manipulate data before it's stored in the global app data map.
-
-```Typescript
-
-type onSet<T> = (value: T) => T 
-
-```
-
-### beforeEmit
-
-`beforeEmit` allows for manipulation of the data before it is emitted to any connected component.
-
-```Typescript
-
-type beforeEmit<T> = (value: T) => T 
-
-```
-
-## Update state outside a component
-
-Sometimes it's desirable for external systems to alter app state -- updates from other clients through pub/sub, mqtt, etc, are good examples of this.
-
-`useSharedState` exposes a global `update` method that allows for updating a key outside of a component.
-
-```Typescript
-// pubSubClient.ts
-import { update } from 'use-shared-state';
-
-const client = new PubSubClient();
-
-client.subscribe('email-changes', (email) => {
-  update('email', email);
-});
-```
-
 ## Examples
 
 ### Simple shared state
@@ -202,10 +106,14 @@ const App = () => (
 export default App
 ```
 
-### Listening for pub/sub changes that affect state
+### Update state outside a component
+
+Sometimes it's desirable for external systems to alter app state -- updates from other clients through pub/sub, mqtt, etc, are good examples of this.
+
+`useSharedState` exposes a global `update` method that allows for updating a key outside of a component.
 
 ```Typescript
-// App.tsx
+// pubSubClient.ts
 import { update } from 'use-shared-state';
 
 const client = new PubSubClient();
@@ -213,12 +121,4 @@ const client = new PubSubClient();
 client.subscribe('email-changes', (email) => {
   update('email', email);
 });
-
-const App = () => (
-  <div>
-    <DisplayEmail />
-  </div>
-);
-
-export default App
 ```
