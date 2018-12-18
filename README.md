@@ -86,22 +86,29 @@ export default DisplayEmail;
 
 ```Typescript
 // App.tsx
-import { events } from 'use-shared-state';
+import useSharedState from 'use-shared-state';
 
-async function onEmailRequest(value: string): Promise<string> {
+async function fetchEmail(setEmail: (email: string) => void): Promise<void> {
    const response = await fetch('http://api.example.com/email');
+   const json = await response.json();
    
-   return JSON.parse(response.body).email;
+   setEmail(json.email);
 }
 
-events.onRequest('email', onEmailRequest);
+const App = () => {
+  const [email, setEmail] = useSharedState('userEmail');
 
-const App = () => (
-  <div>
-    <DisplayEmail />
-    <UpdateEmail />
-  </div>
-);
+  if (email === undefined) {
+    fetchEmail(setEmail);
+  }
+  
+  return (
+    <div>
+      <DisplayEmail />
+      <UpdateEmail />
+    </div>
+  );
+}
 
 export default App
 ```
