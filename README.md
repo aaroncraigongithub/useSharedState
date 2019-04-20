@@ -2,6 +2,8 @@
 
 Dead simple global shared state, using React Hooks.
 
+***This is incomplete and under heavy development.***
+
 ## Quick Start
 
 ### Simple shared state
@@ -31,7 +33,7 @@ const DisplayEmail = () => {
 export default DisplayEmail;
 ```
 
-### Middleware
+### Middleware [INCOMPLETE]
 
 Middleware is useful for a variety of use cases, from logging, to fetching data from an API.
 
