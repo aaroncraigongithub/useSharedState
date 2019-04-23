@@ -138,3 +138,5 @@ const UserDisplay = ({ user }) => {
 
 export default WithUser(UserDisplay);
 ```
+
+These patterns eliminate the need for boilerplate action management, and keep the fetching of data and the use of the data more closely coupled in your code, making it easier to trace the data flow in your app.
