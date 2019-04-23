@@ -4,7 +4,12 @@ import { act } from 'react-dom/test-utils';
 import faker from 'faker';
 import Simple from '../shared/Simple';
 import Updating from '../shared/Updating';
-import { update } from '../../src';
+import {
+  update,
+  registerMiddleware,
+  SharedStateMiddleware,
+  removeMiddleware,
+} from '../../src';
 
 describe('useSharedState', () => {
   const defaultValue = faker.lorem.word();
@@ -44,6 +49,31 @@ describe('useSharedState', () => {
     it('updates other listening components', () => {
       expect(component2.find('button').text()).toEqual(`${defaultValue}x`);
     });
+  });
+});
+
+describe('middleware', () => {
+  let component: ReactWrapper;
+  const key = 'update-test';
+  const value = faker.lorem.word();
+  const middleware: SharedStateMiddleware<string> = (value: string, next) => {
+    next(`${value}x`);
+  };
+
+  beforeAll(() => {
+    registerMiddleware<string>(key, middleware);
+  });
+
+  beforeEach(() => {
+    component = mount(<Simple keyName={key} defaultValue={value} />);
+  });
+
+  afterAll(() => {
+    removeMiddleware<string>(key, middleware);
+  });
+
+  it('passes through the middleware', () => {
+    expect(component.find('span').text()).toEqual(`${value}x`);
   });
 });
 
