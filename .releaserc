@@ -12,7 +12,7 @@
       "assets": {
         "label": "useSharedState",
         "path": [
-          "dist", 
+          "dist/**/*", 
           "CHANGELOG.md", 
           "README.md", 
           "LICENSE"
