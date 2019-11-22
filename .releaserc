@@ -8,12 +8,17 @@
     ],
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    [
-      "@semantic-release/github",
-      {
-        {"path": "dist/**/*", "label": "useSharedState"}
+    ["@semantic-release/github", {
+      "assets": {
+        "label": "useSharedState",
+        "path": [
+          "dist", 
+          "CHANGELOG.md", 
+          "README.md", 
+          "LICENSE"
+        ]
       }
-    ],
+    }],
     "@semantic-release/git"
   ]
 }
