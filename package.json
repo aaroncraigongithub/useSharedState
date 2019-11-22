@@ -1,5 +1,5 @@
 {
-  "name": "use-shared-state",
+  "name": "hook-shared-state",
   "version": "1.0.7",
   "description": "Dead simple global shared state, using React Hooks.",
   "main": "dist/index.js",
