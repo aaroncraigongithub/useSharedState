@@ -6,6 +6,7 @@
   "repository": "git@github.com:aaroncraigongithub/useSharedState.git",
   "author": "Aaron Craig <aaron@aaroncraig.com>",
   "license": "MIT",
+  "files": ["dist"],
   "scripts": {
     "clean": "rm -rf dist",
     "co": "npx git-cz -a",
