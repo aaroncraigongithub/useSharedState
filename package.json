@@ -7,7 +7,10 @@
   "author": "Aaron Craig <aaron@aaroncraig.com>",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf dist",
     "co": "npx git-cz -a",
+    "build": "tsc",
+    "rebuild": "yarn clean && yarn build",
     "test": "jest",
     "testw": "yarn test --watch"
   },
