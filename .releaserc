@@ -10,12 +10,9 @@
     "@semantic-release/changelog",
     ["@semantic-release/github", {
       "assets": {
-        "label": "useSharedState",
+        "label": "build",
         "path": [
           "dist/**/*", 
-          "CHANGELOG.md", 
-          "README.md", 
-          "LICENSE"
         ]
       }
     }],
