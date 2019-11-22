@@ -11,7 +11,7 @@
     [
       "@semantic-release/github",
       {
-        {"path": "dist", "label": "useSharedState"}
+        {"path": "dist/**/*", "label": "useSharedState"}
       }
     ],
     "@semantic-release/git"
