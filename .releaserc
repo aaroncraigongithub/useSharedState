@@ -10,7 +10,6 @@
     "@semantic-release/changelog",
     ["@semantic-release/github", {
       "assets": {
-        "label": "build",
         "path": [
           "dist/**/*", 
         ]
