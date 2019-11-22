@@ -1,6 +1,6 @@
 {
   "name": "hook-shared-state",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Dead simple global shared state, using React Hooks.",
   "main": "dist/index.js",
   "repository": "git@github.com:aaroncraigongithub/useSharedState.git",
