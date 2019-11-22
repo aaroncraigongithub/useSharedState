@@ -1,0 +1,19 @@
+{
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": "./.release-rules.js"
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/github",
+      {
+        {"path": "dist", "label": "useSharedState"}
+      }
+    ],
+    "@semantic-release/git"
+  ]
+}

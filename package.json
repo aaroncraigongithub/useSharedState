@@ -7,6 +7,7 @@
   "author": "Aaron Craig <aaron@aaroncraig.com>",
   "license": "MIT",
   "scripts": {
+    "co": "npx git-cz -a",
     "test": "jest",
     "testw": "yarn test --watch"
   },
@@ -19,6 +20,10 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@babel/preset-typescript": "^7.7.2",
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/git": "^7.0.18",
+    "@semantic-release/github": "^5.5.5",
+    "@semantic-release/release-notes-generator": "^7.3.4",
     "@types/enzyme": "^3.10.3",
     "@types/faker": "^4.1.7",
     "@types/jest": "^24.0.23",
@@ -40,6 +45,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.12.0",
+    "semantic-release": "^15.13.31",
     "ts-node": "^8.5.2",
     "typescript": "^3.7.2"
   }
