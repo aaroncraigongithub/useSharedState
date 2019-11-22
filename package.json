@@ -11,6 +11,7 @@
     "clean": "rm -rf dist",
     "co": "npx git-cz -a",
     "build": "tsc",
+    "pub": "yarn rebuild && yarn release",
     "rebuild": "yarn clean && yarn build",
     "release": "semantic-release",
     "test": "jest",
